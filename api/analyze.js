@@ -1,75 +1,79 @@
-async function readBody(req) {
-  return await new Promise((resolve, reject) => {
-    let data = '';
-    req.on('data', chunk => { data += chunk; });
-    req.on('end', () => resolve(data));
-    req.on('error', reject);
-  });
-}
+const https = require("https");
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST');
-    return res.status(405).json({ error: 'Method Not Allowed' });
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) {
-      return res.status(500).json({
-        error: 'Missing OPENAI_API_KEY. Add it in Vercel Project Settings → Environment Variables.'
-      });
-    }
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: "Server chưa cấu hình API key" });
+  }
 
-    // Vercel usually parses JSON into req.body, but keep a fallback for safety.
-    let body = req.body;
-    if (!body || typeof body !== 'object') {
-      const raw = await readBody(req);
-      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
-    }
+  const { prompt } = req.body || {};
+  if (!prompt) {
+    return res.status(400).json({ error: "Missing prompt" });
+  }
 
-    const { prompt } = body || {};
-    if (!prompt || typeof prompt !== 'string') {
-      return res.status(400).json({ error: 'Missing "prompt" in request body.' });
-    }
-
-    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
-
-    const r = await fetch('https://api.openai.com/v1/responses', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+  const body = JSON.stringify({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "system",
+        content:
+          "Bạn là chuyên gia học bổng. Hãy phân tích CV và trả về nhận xét chi tiết, rõ ràng, có cấu trúc.",
       },
-      body: JSON.stringify({
-        model,
-        input: [
-          {
-            role: 'system',
-            content: [{
-              type: 'input_text',
-              text: 'You are a strict JSON generator. Output ONLY valid JSON, no markdown, no extra text.'
-            }]
-          },
-          {
-            role: 'user',
-            content: [{ type: 'input_text', text: prompt }]
-          }
-        ],
-        temperature: 0.2
-      })
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    temperature: 0.7,
+  });
+
+  const options = {
+    hostname: "api.openai.com",
+    path: "/v1/chat/completions",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(body),
+      Authorization: `Bearer ${apiKey}`,
+    },
+  };
+
+  const request = https.request(options, (response) => {
+    let data = "";
+
+    response.on("data", (chunk) => {
+      data += chunk;
     });
 
-    const data = await r.json();
-    if (!r.ok) {
-      const msg = data?.error?.message || data?.error || `OpenAI error (${r.status})`;
-      return res.status(r.status).json({ error: msg });
-    }
+    response.on("end", () => {
+      try {
+        const parsed = JSON.parse(data);
+        const content = parsed.choices?.[0]?.message?.content;
 
-    const content = (data.output_text || '').trim();
-    return res.status(200).json({ content });
+        if (!content) {
+          return res.status(500).json({ error: "No content returned" });
+        }
 
-  } catch (err) {
-    return res.status(500).json({ error: err?.message || 'Server error' });
-  }
+        res.status(200).json({ content });
+      } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+    });
+  });
+
+  request.on("error", (error) => {
+    res.status(500).json({ error: error.message });
+  });
+
+  request.write(body);
+  request.end();
 }
