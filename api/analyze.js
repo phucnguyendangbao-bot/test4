@@ -1,6 +1,6 @@
 const https = require('https');
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -16,14 +16,11 @@ module.exports = async function handler(req, res) {
 
   const bodyStr = JSON.stringify({
     model: 'openai/gpt-4o-mini',
-    max_tokens: 1500,
+    max_tokens: 1200,
     temperature: 0,
     response_format: { type: 'json_object' },
     messages: [
-      {
-        role: 'system',
-        content: 'Bạn là chuyên gia tư vấn học bổng. Chỉ trả về JSON thuần, không có text khác.'
-      },
+      { role: 'system', content: 'Chuyên gia học bổng. Trả về JSON ngắn gọn.' },
       { role: 'user', content: prompt }
     ]
   });
@@ -38,32 +35,24 @@ module.exports = async function handler(req, res) {
         'Content-Length': Buffer.byteLength(bodyStr),
         'Authorization': `Bearer ${apiKey}`,
         'HTTP-Referer': 'https://brightway-scholars.vercel.app',
-        'X-Title': 'BrightWay Scholars CV Review'
+        'X-Title': 'BrightWay CV Review'
       }
     };
 
     const reqOut = https.request(options, (resOut) => {
-      let data = '';
-      resOut.on('data', chunk => data += chunk);
+      const chunks = [];
+      resOut.on('data', chunk => chunks.push(chunk));
       resOut.on('end', () => {
+        const raw = Buffer.concat(chunks).toString('utf8');
         try {
-          const parsed = JSON.parse(data);
+          const parsed = JSON.parse(raw);
           const content = parsed.choices?.[0]?.message?.content;
-
-          // Nếu không có content, trả về toàn bộ để debug
           if (!content) {
-            return res.status(500).json({
-              error: 'Không có content trong response',
-              debug: JSON.stringify(parsed).slice(0, 500)
-            }), resolve();
+            return res.status(500).json({ error: 'No content', debug: raw.slice(0, 400) }), resolve();
           }
-
           res.status(200).json({ content });
         } catch (e) {
-          res.status(500).json({
-            error: 'Parse lỗi: ' + e.message,
-            raw: data.slice(0, 500)
-          });
+          res.status(500).json({ error: e.message, raw: raw.slice(0, 400) });
         }
         resolve();
       });
@@ -77,4 +66,10 @@ module.exports = async function handler(req, res) {
     reqOut.write(bodyStr);
     reqOut.end();
   });
+}
+
+handler.config = {
+  api: { responseLimit: false }
 };
+
+module.exports = handler;
