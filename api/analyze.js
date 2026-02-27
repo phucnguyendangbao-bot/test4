@@ -48,11 +48,22 @@ module.exports = async function handler(req, res) {
       resOut.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          // Trả về content text trực tiếp thay vì toàn bộ OpenRouter response
-          const content = parsed.choices?.[0]?.message?.content || '';
+          const content = parsed.choices?.[0]?.message?.content;
+
+          // Nếu không có content, trả về toàn bộ để debug
+          if (!content) {
+            return res.status(500).json({
+              error: 'Không có content trong response',
+              debug: JSON.stringify(parsed).slice(0, 500)
+            }), resolve();
+          }
+
           res.status(200).json({ content });
-        } catch {
-          res.status(500).json({ error: 'Invalid response', raw: data.slice(0, 500) });
+        } catch (e) {
+          res.status(500).json({
+            error: 'Parse lỗi: ' + e.message,
+            raw: data.slice(0, 500)
+          });
         }
         resolve();
       });
