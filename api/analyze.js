@@ -15,10 +15,17 @@ module.exports = async function handler(req, res) {
   if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
 
   const bodyStr = JSON.stringify({
-    model: 'anthropic/claude-haiku-4-5',
-    max_tokens: 3000,
+    model: 'openai/gpt-4o-mini',
+    max_tokens: 1500,
     temperature: 0,
-    messages: [{ role: 'user', content: prompt }]
+    response_format: { type: 'json_object' },
+    messages: [
+      {
+        role: 'system',
+        content: 'Bạn là chuyên gia tư vấn học bổng. Chỉ trả về JSON thuần, không có text khác.'
+      },
+      { role: 'user', content: prompt }
+    ]
   });
 
   return new Promise((resolve) => {
@@ -42,7 +49,7 @@ module.exports = async function handler(req, res) {
         try {
           res.status(resOut.statusCode).json(JSON.parse(data));
         } catch {
-          res.status(500).json({ error: 'Invalid response', raw: data.slice(0, 200) });
+          res.status(500).json({ error: 'Invalid response', raw: data.slice(0, 300) });
         }
         resolve();
       });
