@@ -587,40 +587,23 @@ async function submitCV() {
   document.getElementById('resultArea').style.display = 'block';
   document.getElementById('resultBlocks').innerHTML = '<div class="skeleton" style="height:64px;margin-bottom:10px;"></div><div class="skeleton" style="height:64px;margin-bottom:10px;"></div><div class="skeleton" style="height:64px;"></div>';
 
-  const prompt = `Bạn là chuyên gia tư vấn học bổng với nhiều năm kinh nghiệm xét hồ sơ học bổng đại học Việt Nam và quốc tế.
+  const cvTruncated = cv.slice(0, 1500); // giới hạn để tránh JSON bị cắt
 
-Hãy phân tích CV/bài luận học bổng sau theo các tiêu chí: ${opts.join(', ')}.
+  const prompt = `Chuyên gia học bổng. Phân tích CV theo tiêu chí: ${opts.join(', ')}.
 
-NỘI DUNG CV:
+CV:
 """
-${cv}
+${cvTruncated}
 """
 
-Trả về JSON với cấu trúc sau (không có markdown, chỉ JSON thuần):
-{
-  "score": <số từ 0-100>,
-  "level": "<Xuất sắc / Tốt / Khá / Trung bình / Cần cải thiện>",
-  "verdict": "<1-2 câu nhận xét tổng quan>",
-  "blocks": [
-    {
-      "icon": "<emoji>",
-      "title": "<Tiêu chí>",
-      "status": "<danger|warn|ok|info>",
-      "badge": "<label ngắn, vd: Cần cải thiện / Tốt / Xuất sắc>",
-      "goods": ["<điểm tốt 1>", "<điểm tốt 2>"],
-      "bads": ["<điểm yếu 1>", "<điểm yếu 2>"],
-      "tips": ["<gợi ý cụ thể 1>", "<gợi ý cụ thể 2>"],
-      "rewrite": "<đoạn viết lại mẫu nếu có (để trống nếu không cần)>"
-    }
-  ]
-}
+Trả về JSON thuần (KHÔNG markdown, KHÔNG giải thích thêm):
+{"score":75,"level":"Khá","verdict":"Nhận xét ngắn 1 câu.","blocks":[{"icon":"📊","title":"Tên tiêu chí","status":"warn","badge":"Khá","goods":["điểm tốt ngắn"],"bads":["điểm yếu ngắn"],"tips":["gợi ý ngắn"],"rewrite":""}]}
 
-Lưu ý:
-- Nhận xét cụ thể dựa trên nội dung thực tế, không chung chung
-- goods/bads/tips mỗi mảng TỐI ĐA 2 phần tử, mỗi phần tử tối đa 15 từ
-- rewrite chỉ điền khi tiêu chí "Gợi ý cải thiện cụ thể" được chọn, tối đa 50 từ
-- Toàn bộ JSON phải hoàn chỉnh, không được cắt giữa chừng
-- score phản ánh chính xác chất lượng thực tế`;
+Quy tắc NGHIÊM NGẶT:
+- Mỗi block: tối đa 1 good, 1 bad, 1 tip. Mỗi cái tối đa 10 từ.
+- verdict tối đa 15 từ
+- rewrite để trống "" trừ khi tiêu chí "Gợi ý cải thiện cụ thể" được chọn (tối đa 20 từ)
+- JSON phải hoàn chỉnh từ { đến }`;
 
   try {
     const response = await fetch('/api/analyze', {
