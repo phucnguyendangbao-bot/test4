@@ -47,9 +47,12 @@ module.exports = async function handler(req, res) {
       resOut.on('data', chunk => data += chunk);
       resOut.on('end', () => {
         try {
-          res.status(resOut.statusCode).json(JSON.parse(data));
+          const parsed = JSON.parse(data);
+          // Trả về content text trực tiếp thay vì toàn bộ OpenRouter response
+          const content = parsed.choices?.[0]?.message?.content || '';
+          res.status(200).json({ content });
         } catch {
-          res.status(500).json({ error: 'Invalid response', raw: data.slice(0, 300) });
+          res.status(500).json({ error: 'Invalid response', raw: data.slice(0, 500) });
         }
         resolve();
       });
