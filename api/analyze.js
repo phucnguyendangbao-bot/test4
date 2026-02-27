@@ -16,7 +16,8 @@ module.exports = async function handler(req, res) {
 
   const bodyStr = JSON.stringify({
     model: 'anthropic/claude-haiku-4-5',
-    max_tokens: 4000,
+    max_tokens: 3000,
+    temperature: 0,
     messages: [{ role: 'user', content: prompt }]
   });
 
