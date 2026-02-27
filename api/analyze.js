@@ -1,75 +1,75 @@
-const https = require('https');
-
-async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
-  const apiKey = process.env.OPENROUTER_API_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'Server chưa cấu hình API key' });
-
-  const { prompt } = req.body || {};
-  if (!prompt) return res.status(400).json({ error: 'Missing prompt' });
-
-  const bodyStr = JSON.stringify({
-    model: 'openai/gpt-4o-mini',
-    max_tokens: 1200,
-    temperature: 0,
-    response_format: { type: 'json_object' },
-    messages: [
-      { role: 'system', content: 'Chuyên gia học bổng. Trả về JSON ngắn gọn.' },
-      { role: 'user', content: prompt }
-    ]
-  });
-
-  return new Promise((resolve) => {
-    const options = {
-      hostname: 'openrouter.ai',
-      path: '/api/v1/chat/completions',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(bodyStr),
-        'Authorization': `Bearer ${apiKey}`,
-        'HTTP-Referer': 'https://brightway-scholars.vercel.app',
-        'X-Title': 'BrightWay CV Review'
-      }
-    };
-
-    const reqOut = https.request(options, (resOut) => {
-      const chunks = [];
-      resOut.on('data', chunk => chunks.push(chunk));
-      resOut.on('end', () => {
-        const raw = Buffer.concat(chunks).toString('utf8');
-        try {
-          const parsed = JSON.parse(raw);
-          const content = parsed.choices?.[0]?.message?.content;
-          if (!content) {
-            return res.status(500).json({ error: 'No content', debug: raw.slice(0, 400) }), resolve();
-          }
-          res.status(200).json({ content });
-        } catch (e) {
-          res.status(500).json({ error: e.message, raw: raw.slice(0, 400) });
-        }
-        resolve();
-      });
-    });
-
-    reqOut.on('error', (err) => {
-      res.status(500).json({ error: err.message });
-      resolve();
-    });
-
-    reqOut.write(bodyStr);
-    reqOut.end();
+async function readBody(req) {
+  return await new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => resolve(data));
+    req.on('error', reject);
   });
 }
 
-handler.config = {
-  api: { responseLimit: false }
-};
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
 
-module.exports = handler;
+  try {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({
+        error: 'Missing OPENAI_API_KEY. Add it in Vercel Project Settings → Environment Variables.'
+      });
+    }
+
+    // Vercel usually parses JSON into req.body, but keep a fallback for safety.
+    let body = req.body;
+    if (!body || typeof body !== 'object') {
+      const raw = await readBody(req);
+      try { body = JSON.parse(raw || '{}'); } catch { body = {}; }
+    }
+
+    const { prompt } = body || {};
+    if (!prompt || typeof prompt !== 'string') {
+      return res.status(400).json({ error: 'Missing "prompt" in request body.' });
+    }
+
+    const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+
+    const r = await fetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model,
+        input: [
+          {
+            role: 'system',
+            content: [{
+              type: 'input_text',
+              text: 'You are a strict JSON generator. Output ONLY valid JSON, no markdown, no extra text.'
+            }]
+          },
+          {
+            role: 'user',
+            content: [{ type: 'input_text', text: prompt }]
+          }
+        ],
+        temperature: 0.2
+      })
+    });
+
+    const data = await r.json();
+    if (!r.ok) {
+      const msg = data?.error?.message || data?.error || `OpenAI error (${r.status})`;
+      return res.status(r.status).json({ error: msg });
+    }
+
+    const content = (data.output_text || '').trim();
+    return res.status(200).json({ content });
+
+  } catch (err) {
+    return res.status(500).json({ error: err?.message || 'Server error' });
+  }
+}
