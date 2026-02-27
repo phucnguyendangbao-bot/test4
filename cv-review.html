@@ -616,9 +616,9 @@ Quy tắc NGHIÊM NGẶT:
     let data;
     try { data = JSON.parse(text); } catch { throw new Error('Lỗi server: ' + text.slice(0, 120)); }
     if (!response.ok) throw new Error(data.error || 'Lỗi ' + response.status);
-    const raw = (data.choices?.[0]?.message?.content || '').replace(/```json|```/g, '').trim();
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const result = JSON.parse(clean);
+    // Backend giờ trả về { content: "..." } trực tiếp
+    const raw = (data.content || '').replace(/```json|```/g, '').trim();
+    const result = JSON.parse(raw);
     renderResult(result);
 
   } catch (e) {
