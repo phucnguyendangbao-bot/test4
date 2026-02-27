@@ -54,26 +54,32 @@ export default async function handler(req, res) {
       data += chunk;
     });
 
-    response.on("end", () => {
-      try {
-        const parsed = JSON.parse(data);
-        const content = parsed.choices?.[0]?.message?.content;
+   response.on("end", () => {
+  try {
+    const parsed = JSON.parse(data);
 
-        if (!content) {
-          return res.status(500).json({ error: "No content returned" });
-        }
+    console.log("FULL RESPONSE:", parsed);
 
-        res.status(200).json({ content });
-      } catch (err) {
-        res.status(500).json({ error: err.message });
+    let content = null;
+
+    if (parsed.choices && parsed.choices.length > 0) {
+      if (parsed.choices[0].message) {
+        content = parsed.choices[0].message.content;
+      } else if (parsed.choices[0].text) {
+        content = parsed.choices[0].text;
       }
-    });
-  });
+    }
 
-  request.on("error", (error) => {
-    res.status(500).json({ error: error.message });
-  });
+    if (!content) {
+      return res.status(500).json({
+        error: "No content returned",
+        debug: parsed
+      });
+    }
 
-  request.write(body);
-  request.end();
-}
+    res.status(200).json({ content });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
