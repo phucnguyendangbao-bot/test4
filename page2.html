@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BrightWay Scholars – Chi tiết Học Bổng theo Trường</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --font: 'Be Vietnam Pro', sans-serif;
+  --font-display: 'Nunito', 'Be Vietnam Pro', sans-serif;
+  --accent: #6366f1;
+  --accent2: #7c3aed;
+  --grad: linear-gradient(135deg, #6366f1, #7c3aed);
+  --grad-btn: linear-gradient(135deg, #6366f1, #818cf8);
+  --text-dark: #1a1a3e;
+  --text-mid: #374151;
+  --text-soft: #6b7280;
+  --shadow: 0 4px 16px rgba(99,102,241,0.1);
+  --shadow-lg: 0 12px 32px rgba(99,102,241,0.15);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: linear-gradient(135deg, #eef2ff 0%, #f0f4ff 40%, #faf5ff 70%, #f5f3ff 100%);
+  color: var(--text-mid);
+  min-height: 100vh;
+}
+html { scroll-behavior: smooth; }
+
+/* ── NAV ── */
+.p2-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.85);
+  box-shadow: 0 2px 12px rgba(99,102,241,0.08);
+}
+.p2-nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.p2-nav-logo {
+  font-family: var(--font-display);
+  font-weight: 900; font-size: 1rem;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-decoration: none; white-space: nowrap;
+}
+.p2-back {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(99,102,241,0.1); color: var(--accent);
+  font-weight: 700; font-size: .82rem;
+  padding: 7px 16px; border-radius: 999px;
+  text-decoration: none; transition: all .2s;
+  border: 1px solid rgba(99,102,241,0.18);
+}
+.p2-back:hover { background: var(--grad-btn); color: #fff; border-color: transparent; }
+.p2-search-bar {
+  flex: 1; max-width: 360px; position: relative;
+}
+.p2-search-bar input {
+  width: 100%; border: 1.5px solid rgba(99,102,241,0.22);
+  border-radius: 14px; padding: 8px 12px 8px 36px;
+  font-size: .85rem; outline: none;
+  background: rgba(255,255,255,0.85); color: var(--text-dark);
+  font-family: var(--font); transition: border-color .15s, box-shadow .15s;
+}
+.p2-search-bar input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(99,102,241,0.12); }
+.p2-search-bar svg {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; stroke: rgba(99,102,241,0.5);
+  fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  pointer-events: none;
+}
+@media(max-width:640px) {
+  .p2-search-bar { max-width: 100%; order: 3; flex-basis: 100%; }
+  .p2-nav-inner { flex-wrap: wrap; }
+}
+
+/* ── SIDEBAR ── */
+.p2-layout {
+  max-width: 1200px; margin: 0 auto; padding: 24px;
+  display: grid; grid-template-columns: 240px 1fr; gap: 24px;
+}
+@media(max-width:900px) { .p2-layout { grid-template-columns: 1fr; } }
+.p2-sidebar {
+  position: sticky; top: 80px; align-self: start;
+  background: rgba(255,255,255,0.65);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 20px; backdrop-filter: blur(12px);
+  box-shadow: var(--shadow); padding: 16px;
+  max-height: calc(100vh - 100px); overflow-y: auto;
+}
+@media(max-width:900px) {
+  .p2-sidebar {
+    position: static; max-height: none;
+    display: flex; flex-wrap: wrap; gap: 6px; padding: 12px;
+  }
+  .p2-sidebar-title { display: none; }
+}
+.p2-sidebar-title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: .88rem; color: var(--text-dark); margin-bottom: 12px;
+}
+.p2-sidebar a {
+  display: block; padding: 8px 12px; border-radius: 10px;
+  font-size: .82rem; font-weight: 600; color: var(--text-soft);
+  text-decoration: none; transition: all .15s; margin-bottom: 2px;
+}
+@media(max-width:900px) {
+  .p2-sidebar a { margin-bottom: 0; padding: 6px 10px; font-size: .78rem; }
+}
+.p2-sidebar a:hover, .p2-sidebar a.active {
+  background: rgba(99,102,241,0.1); color: var(--accent);
+}
+
+/* ── MAIN CONTENT ── */
+.p2-main { display: flex; flex-direction: column; gap: 32px; }
+
+/* ── SCHOOL SECTION ── */
+.school-section {
+  scroll-margin-top: 90px;
+  transition: box-shadow .4s;
+}
+.school-section.highlight {
+  animation: highlightPulse 1.5s ease;
+}
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 4px rgba(99,102,241,0.4); border-radius: 22px; }
+  100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+}
+.school-header {
+  background: rgba(255,255,255,0.65);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 22px 22px 0 0;
+  backdrop-filter: blur(12px);
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.school-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(167,139,250,0.12));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.school-info { flex: 1; }
+.school-name {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.15rem; color: var(--text-dark);
+}
+.school-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.school-badge-short {
+  display: inline-block; border-radius: 999px; padding: 2px 10px;
+  font-size: .73rem; font-weight: 600;
+  background: rgba(99,102,241,0.1); color: var(--accent);
+  border: 1px solid rgba(99,102,241,0.18);
+}
+.school-badge-city {
+  display: inline-block; border-radius: 999px; padding: 2px 10px;
+  font-size: .73rem; font-weight: 600;
+  background: transparent; border: 1px solid rgba(99,102,241,0.22); color: var(--text-soft);
+}
+
+/* ── SCHOLARSHIP CARDS ── */
+.school-cards {
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid rgba(255,255,255,0.85);
+  border-top: none;
+  border-radius: 0 0 22px 22px;
+  backdrop-filter: blur(10px);
+  padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.sc-card {
+  background: rgba(255,255,255,0.72);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 16px; padding: 18px;
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s;
+}
+.sc-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.sc-card-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .95rem; color: var(--accent); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sc-row { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 8px; }
+.sc-label {
+  font-size: .78rem; font-weight: 700; color: var(--text-dark); min-width: 120px;
+}
+.sc-value { font-size: .82rem; color: var(--text-soft); flex: 1; line-height: 1.6; }
+.sc-tag {
+  display: inline-block; border-radius: 8px; padding: 3px 10px;
+  font-size: .73rem; font-weight: 600;
+  background: rgba(99,102,241,0.08); color: var(--accent);
+  border: 1px solid rgba(99,102,241,0.15);
+}
+.sc-tag-green {
+  background: rgba(16,185,129,0.08); color: #059669;
+  border-color: rgba(16,185,129,0.2);
+}
+.sc-tag-amber {
+  background: rgba(245,158,11,0.08); color: #d97706;
+  border-color: rgba(245,158,11,0.2);
+}
+.sc-note {
+  border-radius: 10px; border: 1px solid rgba(251,191,36,0.35);
+  background: rgba(254,249,195,0.7); padding: 10px 14px;
+  font-size: .82rem; color: #92400e; line-height: 1.6;
+  margin-top: 8px;
+}
+.sc-updating {
+  text-align: center; padding: 24px;
+  color: var(--text-soft); font-size: .88rem;
+}
+
+/* ── ESSAY SECTION ── */
+.essay-section {
+  scroll-margin-top: 90px;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(99,102,241,0.10);
+  transition: box-shadow .4s;
+}
+.essay-section.highlight {
+  animation: highlightPulse 1.5s ease;
+}
+.essay-header {
+  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+  padding: 28px 28px 22px;
+  display: flex; align-items: flex-start; gap: 18px;
+}
+.essay-header-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; flex-shrink: 0;
+}
+.essay-header-info { flex: 1; }
+.essay-header-title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 1.25rem; color: #fff; margin-bottom: 4px;
+}
+.essay-header-sub { font-size: .85rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+.essay-body {
+  background: rgba(255,255,255,0.6);
+  border: 1.5px solid rgba(255,255,255,0.9);
+  border-top: none; border-radius: 0 0 22px 22px;
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.essay-formula {
+  background: linear-gradient(135deg, rgba(99,102,241,0.07), rgba(124,58,237,0.05));
+  border: 1.5px solid rgba(99,102,241,0.18);
+  border-radius: 16px; padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.essay-formula-title {
+  font-size: .8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: .05em;
+}
+.essay-formula-steps {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+}
+.essay-formula-step {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.8); border: 1.5px solid rgba(99,102,241,0.2);
+  border-radius: 999px; padding: 5px 12px;
+  font-size: .78rem; font-weight: 700; color: var(--text-dark);
+}
+.essay-formula-arrow { color: var(--accent); font-size: .85rem; font-weight: 900; }
+.essay-formula-note {
+  font-size: .8rem; color: var(--text-soft); line-height: 1.55;
+  border-top: 1px solid rgba(99,102,241,0.12); padding-top: 10px; margin-top: 2px;
+}
+.essay-block-title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: .95rem; color: var(--text-dark);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.essay-struct-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+}
+.essay-struct-card {
+  background: rgba(255,255,255,0.78); border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 16px; padding: 16px 18px;
+  box-shadow: 0 2px 10px rgba(99,102,241,0.07);
+}
+.essay-struct-card-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.essay-struct-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--grad); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; font-weight: 800; flex-shrink: 0;
+}
+.essay-struct-label {
+  font-weight: 800; font-size: .88rem; color: var(--text-dark);
+}
+.essay-struct-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.essay-struct-items li {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: .8rem; color: var(--text-soft); line-height: 1.5;
+}
+.essay-struct-items li::before {
+  content: '›'; color: var(--accent); font-weight: 900; flex-shrink: 0; margin-top: 0;
+}
+.essay-tips-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+}
+.essay-tip-card {
+  background: rgba(255,255,255,0.75); border: 1.5px solid rgba(255,255,255,0.9);
+  border-radius: 14px; padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+  transition: transform .18s, box-shadow .18s;
+}
+.essay-tip-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(99,102,241,0.12); }
+.essay-tip-icon { font-size: 1.3rem; margin-bottom: 7px; }
+.essay-tip-name { font-weight: 800; font-size: .84rem; color: var(--text-dark); margin-bottom: 5px; }
+.essay-tip-desc { font-size: .78rem; color: var(--text-soft); line-height: 1.55; }
+.essay-sidebar-link {
+  margin-top: 10px;
+  border-top: 1px solid rgba(99,102,241,0.1);
+  padding-top: 10px;
+}
+.essay-sidebar-label {
+  font-size: .7rem; font-weight: 800; color: var(--text-soft);
+  text-transform: uppercase; letter-spacing: .06em; padding: 6px 10px 4px;
+}
+
+/* ── FOOTER ── */
+.p2-footer {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255,255,255,0.85);
+  margin-top: 24px; padding: 20px 24px;
+  text-align: center; font-size: .82rem; color: var(--text-soft);
+}
+.p2-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+.p2-footer a:hover { text-decoration: underline; }
+
+/* ── NO RESULTS ── */
+.p2-no-results {
+  text-align: center; padding: 48px 24px;
+  color: var(--text-soft); font-size: .9rem;
+  border: 1.5px dashed rgba(99,102,241,0.25);
+  border-radius: 22px; background: rgba(255,255,255,0.5);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(99,102,241,0.05); }
+::-webkit-scrollbar-thumb { background: rgba(99,102,241,0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99,102,241,0.45); }
+/* ── ACCORDION DETAIL ── */
+.essay-accordion-card:hover { box-shadow: 0 6px 22px rgba(99,102,241,0.13); }
+.essay-accordion-card.open { background: rgba(255,255,255,0.9); }
+.acc-section-title {
+  font-weight: 800; font-size: .82rem; color: var(--accent);
+  margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.acc-list { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 0; }
+.acc-list li {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: .8rem; color: var(--text-soft); line-height: 1.55;
+}
+.acc-list li::before { content: '›'; color: var(--accent); font-weight: 900; flex-shrink: 0; }
+.acc-list-danger li::before { content: '⚠'; font-style: normal; }
+.acc-method-card {
+  background: rgba(99,102,241,0.04); border: 1px solid rgba(99,102,241,0.12);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 10px;
+}
+.acc-method-title {
+  font-weight: 800; font-size: .82rem; color: var(--text-dark);
+  margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+}
+.acc-quote {
+  background: rgba(255,255,255,0.8); border-left: 3px solid var(--accent);
+  padding: 8px 12px; border-radius: 0 8px 8px 0;
+  font-size: .79rem; color: var(--text-mid); line-height: 1.6;
+  font-style: italic; margin: 6px 0;
+}
+.acc-tip { font-size: .78rem; color: var(--text-soft); margin-top: 6px; line-height: 1.5; }
+.acc-warn {
+  font-size: .78rem; color: #d97706; margin-top: 8px;
+  background: rgba(245,158,11,0.08); border-radius: 8px; padding: 6px 10px;
+  border: 1px solid rgba(245,158,11,0.2);
+}
+.acc-note {
+  border-radius: 10px; border: 1px solid rgba(251,191,36,0.35);
+  background: rgba(254,249,195,0.7); padding: 10px 14px;
+  font-size: .8rem; color: #92400e; line-height: 1.6; margin-top: 10px;
+}
+.acc-compare { display: flex; flex-direction: column; gap: 5px; margin: 8px 0; }
+.acc-compare-bad {
+  font-size: .79rem; color: #dc2626; background: rgba(220,38,38,0.06);
+  border-radius: 8px; padding: 5px 10px; border: 1px solid rgba(220,38,38,0.15);
+}
+.acc-compare-good {
+  font-size: .79rem; color: #059669; background: rgba(5,150,105,0.06);
+  border-radius: 8px; padding: 5px 10px; border: 1px solid rgba(5,150,105,0.15);
+}
+.acc-formula-mini {
+  font-size: .79rem; font-weight: 700; color: var(--accent);
+  background: rgba(99,102,241,0.08); border-radius: 8px; padding: 5px 10px;
+  margin: 6px 0; display: inline-block;
+}
+.acc-badge {
+  display: inline-block; border-radius: 999px; padding: 1px 9px;
+  font-size: .7rem; font-weight: 700;
+}
+.acc-badge-green { background: rgba(16,185,129,0.1); color: #059669; border: 1px solid rgba(16,185,129,0.2); }
+.acc-badge-purple { background: rgba(99,102,241,0.1); color: var(--accent); border: 1px solid rgba(99,102,241,0.2); }
+.acc-badge-amber { background: rgba(245,158,11,0.1); color: #d97706; border: 1px solid rgba(245,158,11,0.2); }
+.acc-length-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .8rem; color: var(--text-mid); padding: 4px 0;
+  border-bottom: 1px solid rgba(99,102,241,0.07);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="p2-nav">
+  <div class="p2-nav-inner">
+    <a href="index.html" class="p2-nav-logo">BrightWay Scholars</a>
+    <div class="p2-search-bar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Tìm trường..." oninput="filterSchools(this.value)" />
+    </div>
+    <a href="index.html" class="p2-back">← Quay về trang chủ</a>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="p2-layout">
+  <!-- SIDEBAR -->
+  <aside class="p2-sidebar" id="sidebar">
+    <div class="p2-sidebar-title">📚 Danh sách trường</div>
+    <!-- generated by JS -->
+  </aside>
+
+  <!-- MAIN -->
+  <main class="p2-main" id="mainContent">
+    <!-- generated by JS -->
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="p2-footer">
+  <a href="index.html">BrightWay Scholars</a> &copy; 2025 &mdash; Thông tin mang tính tham khảo, vui lòng kiểm tra website chính thức của từng trường.
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+   SCHOLARSHIP DATA
+═══════════════════════════════════════ */
+const SCHOOLS = [
+  {
+    id: "hcmut-oisp",
+    name: "Đại học Bách khoa – ĐHQG TP.HCM (OISP)",
+    short: "HCMUT OISP",
+    city: "TP.HCM",
+    icon: "🏛️",
+    website: "https://oisp.hcmut.edu.vn/tuyen-sinh/hoc-bong",
+    scholarships: [
+      {
+        title: "Học bổng khuyến khích học tập theo kỳ",
+        target: "Sinh viên đang học tại trường",
+        requirements: "Đạt kết quả học tập tốt trong kỳ/năm học, không vi phạm kỷ luật",
+        timeline: "Xét theo kỳ học",
+        note: "Tỷ lệ và mức học bổng thay đổi theo năm"
+      },
+      {
+        title: "Học bổng IELTS / Ngoại ngữ",
+        target: "Sinh viên chương trình OISP, tiên tiến",
+        requirements: "Đạt điểm IELTS hoặc chứng chỉ ngoại ngữ quốc tế theo mức quy định",
+        timeline: "Theo thông báo từng đợt",
+        note: "Mức thưởng phụ thuộc vào band score đạt được"
+      },
+      {
+        title: "Học bổng thủ khoa đầu vào",
+        target: "Thí sinh trúng tuyển điểm cao nhất ngành",
+        requirements: "Thủ khoa hoặc top điểm cao nhất theo phương thức xét tuyển",
+        timeline: "Xét khi nhập học",
+        note: "Nên kiểm tra mục học bổng/tài chính của từng chương trình (chuẩn, tiên tiến, OISP)"
+      }
+    ]
+  },
+  {
+    id: "uit",
+    name: "Đại học Công nghệ Thông tin – ĐHQG TP.HCM",
+    short: "UIT",
+    city: "TP.HCM",
+    icon: "💻",
+    website: "https://www.uit.edu.vn/chinh-sach-hoc-bong-tai-uit",
+    scholarships: [
+      {
+        title: "Học bổng tuyển sinh đầu vào",
+        target: "Thí sinh trúng tuyển với điểm số xuất sắc",
+        requirements: "Đạt mốc điểm theo quy định của trường (THPT, ĐGNL, hoặc xét học bạ)",
+        timeline: "Xét khi nhập học năm nhất",
+        note: ""
+      },
+      {
+        title: "Học bổng thủ khoa",
+        target: "Thủ khoa từng phương thức xét tuyển",
+        requirements: "Điểm cao nhất trong số thí sinh trúng tuyển",
+        timeline: "Năm nhất",
+        note: ""
+      },
+      {
+        title: "UIT Advance Scholarship",
+        target: "Sinh viên chương trình tiên tiến",
+        requirements: "Theo tiêu chí riêng của chương trình Advance, thường yêu cầu tiếng Anh tốt",
+        timeline: "Theo thông báo",
+        note: ""
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA kỳ trước đạt loại giỏi trở lên",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "UIT Global – Học bổng quốc tế",
+        target: "Sinh viên tham gia chương trình trao đổi, hợp tác quốc tế",
+        requirements: "IELTS hoặc chứng chỉ tiếng Anh tương đương, GPA tốt",
+        timeline: "Theo đợt mở đăng ký",
+        note: "Một số học bổng xét theo thành tích sau khi nhập học"
+      }
+    ]
+  },
+  {
+    id: "fpt",
+    name: "Đại học FPT",
+    short: "FPTU",
+    city: "TP.HCM / Hà Nội / Đà Nẵng / Cần Thơ",
+    icon: "🎯",
+    website: "https://daihoc.fpt.edu.vn/hoc-bong/",
+    scholarships: [
+      {
+        title: "Học bổng tài năng (50–100% học phí)",
+        target: "Thí sinh có thành tích xuất sắc, giải quốc gia/quốc tế",
+        requirements: "Giải HSG cấp quốc gia/quốc tế, hoặc đạt điểm thi đầu vào FPT rất cao",
+        timeline: "Xét khi nộp hồ sơ nhập học",
+        note: ""
+      },
+      {
+        title: "Học bổng ưu tiên lĩnh vực",
+        target: "Thí sinh đăng ký ngành ưu tiên của FPT trong năm",
+        requirements: "Theo chính sách từng năm, có thể yêu cầu điểm IELTS hoặc portfolio",
+        timeline: "Theo đợt tuyển sinh",
+        note: ""
+      },
+      {
+        title: "Học bổng 30–50% từ kỳ thi học bổng riêng",
+        target: "Thí sinh thi học bổng do FPT tổ chức",
+        requirements: "Đăng ký và dự thi kỳ thi học bổng FPT, đạt kết quả theo mốc",
+        timeline: "Nhiều đợt trong năm",
+        note: "Điều kiện học bổng thay đổi theo đợt tuyển sinh"
+      }
+    ]
+  },
+  {
+    id: "ueh",
+    name: "Đại học Kinh tế TP.HCM",
+    short: "UEH",
+    city: "TP.HCM",
+    icon: "📊",
+    website: "https://isb.edu.vn/loai-hoc-bong-ueh-danh-cho-sinh-vien-dai-hoc-kinh-te/",
+    scholarships: [
+      {
+        title: "Học bổng tân sinh viên theo thành tích đầu vào",
+        target: "Thí sinh trúng tuyển điểm cao",
+        requirements: "Điểm THPT hoặc ĐGNL đạt mốc theo quy định từng năm",
+        timeline: "Xét khi nhập học",
+        note: ""
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA kỳ trước đạt loại giỏi, xuất sắc",
+        timeline: "Xét theo kỳ/năm",
+        note: ""
+      },
+      {
+        title: "Học bổng doanh nghiệp",
+        target: "Sinh viên có hoàn cảnh hoặc thành tích nổi bật",
+        requirements: "Theo tiêu chí từng nhà tài trợ",
+        timeline: "Theo thông báo",
+        note: "Điểm và học bổng thay đổi theo đề án từng năm"
+      }
+    ]
+  },
+  {
+    id: "ftu",
+    name: "Đại học Ngoại thương – Cơ sở II TP.HCM",
+    short: "FTU2",
+    city: "TP.HCM",
+    icon: "🌍",
+    website: "https://cs2.ftu.edu.vn/category/nguoi-hoc/hoc-bong/",
+    scholarships: [
+      {
+        title: "Học bổng đầu vào / thành tích cao",
+        target: "Thủ khoa hoặc thí sinh điểm rất cao",
+        requirements: "Điểm THPT ≥ 25 (tham khảo) hoặc ĐGNL ≥ 900",
+        timeline: "Xét khi nhập học",
+        note: ""
+      },
+      {
+        title: "Học bổng chương trình quốc tế (GENIE, v.v.)",
+        target: "Sinh viên chương trình quốc tế",
+        requirements: "IELTS ≥ 6.5, GPA tốt, bài luận + phỏng vấn (tùy chương trình)",
+        timeline: "Theo đề án từng năm",
+        note: ""
+      },
+      {
+        title: "Học bổng nghiên cứu, ngoại khóa",
+        target: "Sinh viên có hoạt động nghiên cứu / lãnh đạo nổi bật",
+        requirements: "Hồ sơ hoạt động, giấy xác nhận",
+        timeline: "Theo thông báo",
+        note: "Nên xem kỹ đề án tuyển sinh và học bổng chương trình cụ thể"
+      }
+    ]
+  },
+  {
+    id: "vlu",
+    name: "Đại học Văn Lang",
+    short: "VLU",
+    city: "TP.HCM",
+    icon: "🎨",
+    website: "https://www.vlu.edu.vn/admissions/scholarship/hoc-bong-dai-hoc",
+    scholarships: [
+      {
+        title: "Học bổng tuyển sinh theo điểm đầu vào",
+        target: "Thí sinh trúng tuyển với mốc điểm cao",
+        requirements: "Theo bảng mốc điểm của trường (THPT, học bạ, ĐGNL)",
+        timeline: "Xét khi nhập học",
+        note: "Nhiều mức học bổng theo từng mốc điểm"
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA tốt, không vi phạm kỷ luật",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Học bổng tài năng / hoạt động",
+        target: "Sinh viên có thành tích nghệ thuật, thể thao, hoạt động xã hội",
+        requirements: "Hồ sơ minh chứng, portfolio (nếu ngành thiết kế/truyền thông)",
+        timeline: "Theo thông báo",
+        note: ""
+      }
+    ]
+  },
+  {
+    id: "pnt",
+    name: "Đại học Y khoa Phạm Ngọc Thạch",
+    short: "PNTU",
+    city: "TP.HCM",
+    icon: "🩺",
+    website: "https://phtqt.pnt.edu.vn/vi/hoc-bong-quoc-te",
+    scholarships: [
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "Kết quả học tập xuất sắc trong kỳ/năm",
+        timeline: "Xét theo kỳ/năm",
+        note: ""
+      },
+      {
+        title: "Học bổng tân sinh viên",
+        target: "Tân sinh viên điểm đầu vào cao (tùy năm)",
+        requirements: "Điểm THPT B00 ≥ 24.5 (tham khảo), hạnh kiểm tốt",
+        timeline: "Năm nhất",
+        note: ""
+      },
+      {
+        title: "Quỹ hỗ trợ sinh viên",
+        target: "Sinh viên khó khăn, có thành tích tốt",
+        requirements: "Hồ sơ hoàn cảnh + kết quả học tập",
+        timeline: "Theo thông báo đầu năm học",
+        note: "Theo dõi thông báo học bổng đầu năm học"
+      }
+    ]
+  },
+  {
+    id: "ctump",
+    name: "Đại học Y Dược Cần Thơ",
+    short: "CTUMP",
+    city: "Cần Thơ",
+    icon: "💊",
+    website: "https://www.ctump.edu.vn/khoa/nguoi-hoc-dai-hoc-hoc-bong-portal-20.html",
+    scholarships: [
+      {
+        title: "Học bổng theo thành tích học tập",
+        target: "Sinh viên có GPA xuất sắc",
+        requirements: "GPA kỳ trước đạt loại giỏi, xuất sắc",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Hỗ trợ theo hoàn cảnh, quỹ sinh viên",
+        target: "Sinh viên khó khăn",
+        requirements: "Hồ sơ hoàn cảnh + hạnh kiểm tốt",
+        timeline: "Theo từng đợt",
+        note: ""
+      },
+      {
+        title: "Học bổng khuyến khích học kỳ",
+        target: "Sinh viên đang theo học",
+        requirements: "Thành tích tốt, không vi phạm kỷ luật",
+        timeline: "Xét theo kỳ",
+        note: "Một số học bổng công bố theo từng đợt"
+      }
+    ]
+  },
+  {
+    id: "ump",
+    name: "Đại học Y Dược TP.HCM",
+    short: "UMP",
+    city: "TP.HCM",
+    icon: "⚕️",
+    website: "https://ump.edu.vn/tuyen-sinh-dao-tao/hoc-bong/trong-nuoc",
+    scholarships: [
+      {
+        title: "Học bổng khuyến khích học tập theo học kỳ/năm",
+        target: "Sinh viên đang theo học",
+        requirements: "Kết quả học tập xuất sắc, hạnh kiểm tốt",
+        timeline: "Xét theo kỳ/năm",
+        note: ""
+      },
+      {
+        title: "Học bổng cho sinh viên thành tích cao",
+        target: "Sinh viên có thành tích đặc biệt trong nghiên cứu, học thuật",
+        requirements: "Bài nghiên cứu, giải thưởng, thành tích nổi bật",
+        timeline: "Theo thông báo",
+        note: ""
+      },
+      {
+        title: "Học bổng hỗ trợ từ quỹ/trợ cấp",
+        target: "Sinh viên có hoàn cảnh khó khăn",
+        requirements: "Hồ sơ hoàn cảnh + kết quả học tập đạt yêu cầu",
+        timeline: "Theo từng đợt",
+        note: "Ngành Y thường có mức cạnh tranh rất cao"
+      }
+    ]
+  },
+  {
+    id: "ussh",
+    name: "Đại học KHXH & NV – ĐHQG TP.HCM",
+    short: "USSH",
+    city: "TP.HCM",
+    icon: "📣",
+    scholarships: [
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA đạt loại giỏi, xuất sắc",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Học bổng tài trợ doanh nghiệp / cựu sinh viên",
+        target: "Sinh viên có hoàn cảnh hoặc thành tích nổi bật",
+        requirements: "Theo tiêu chí từng nhà tài trợ",
+        timeline: "Theo thông báo",
+        note: ""
+      },
+      {
+        title: "Học bổng theo thành tích đầu vào (tùy khoa/chương trình)",
+        target: "Tân sinh viên điểm cao",
+        requirements: "Điểm THPT hoặc ĐGNL vượt mốc, có hoạt động/portfolio truyền thông (lợi thế)",
+        timeline: "Năm nhất",
+        note: "Ngành truyền thông có thể ưu tiên hồ sơ hoạt động nổi bật"
+      }
+    ]
+  },
+  {
+    id: "rmit",
+    name: "RMIT University Vietnam",
+    short: "RMIT",
+    city: "TP.HCM / Hà Nội",
+    icon: "🌐",
+    website: "https://www.rmit.edu.vn/vi/hoc-tap-tai-rmit/hoc-bong/hoc-bong-dai-hoc-cho-sinh-vien-tuong-la",
+    scholarships: [
+      {
+        title: "Opportunity Scholarship",
+        target: "Thí sinh có hoàn cảnh khó khăn và thành tích tốt",
+        requirements: "Hồ sơ hoàn cảnh, GPA ≥ 8.5, IELTS ≥ 6.5, bài luận + phỏng vấn",
+        timeline: "Có deadline cụ thể (thường đầu năm)",
+        note: ""
+      },
+      {
+        title: "Academic Merit / Achievement Scholarships",
+        target: "Thí sinh có thành tích học thuật xuất sắc",
+        requirements: "GPA tốt, chứng chỉ tiếng Anh, hoạt động ngoại khóa nổi bật",
+        timeline: "Theo đợt tuyển sinh",
+        note: ""
+      },
+      {
+        title: "Scholarships có hồ sơ riêng và deadline cụ thể",
+        target: "Tùy loại học bổng",
+        requirements: "Tùy loại – thường bao gồm bài luận cá nhân, phỏng vấn",
+        timeline: "Xem website RMIT",
+        note: "Nên chuẩn bị hồ sơ sớm vì có deadline. Học phí cao, học bổng cạnh tranh"
+      }
+    ]
+  },
+  {
+    id: "hub",
+    name: "Đại học Ngân hàng TP.HCM",
+    short: "HUB",
+    city: "TP.HCM",
+    icon: "🏦",
+    website: "https://scc.hub.edu.vn/ho-tro-nguoi-hoc/hoc-bong",
+    scholarships: [
+      {
+        title: "Học bổng tuyển sinh đầu vào",
+        target: "Tân sinh viên điểm cao",
+        requirements: "Điểm THPT, ĐGNL hoặc học bạ đạt mốc theo quy định",
+        timeline: "Năm nhất",
+        note: ""
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA đạt loại giỏi, xuất sắc",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Học bổng tài trợ từ ngân hàng/doanh nghiệp",
+        target: "Sinh viên có hoàn cảnh, thành tích nổi bật",
+        requirements: "Theo tiêu chí từng nhà tài trợ",
+        timeline: "Theo thông báo",
+        note: "Có thể có nhiều đợt xét học bổng tân sinh viên"
+      }
+    ]
+  },
+  {
+    id: "hcmue",
+    name: "Đại học Sư phạm TP.HCM",
+    short: "HCMUE",
+    city: "TP.HCM",
+    icon: "📘",
+    website: "https://hcmue.edu.vn/vi/hop-tac-quoc-te/hoc-bong",
+    scholarships: [
+      {
+        title: "Miễn/giảm học phí theo chính sách ngành sư phạm",
+        target: "Sinh viên ngành sư phạm",
+        requirements: "Đăng ký ngành sư phạm, cam kết theo chính sách nhà nước",
+        timeline: "Suốt thời gian học",
+        note: "Cần đọc kỹ chính sách hỗ trợ và nghĩa vụ sau tốt nghiệp"
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "Kết quả học tập tốt, hạnh kiểm tốt",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Học bổng hỗ trợ sinh viên sư phạm",
+        target: "Sinh viên có hoàn cảnh đặc biệt",
+        requirements: "Hồ sơ hoàn cảnh + kết quả học tập",
+        timeline: "Theo thông báo",
+        note: ""
+      }
+    ]
+  },
+  {
+    id: "ctu",
+    name: "Đại học Cần Thơ",
+    short: "CTU",
+    city: "Cần Thơ",
+    icon: "🌾",
+    website: "https://tansinhvien.ctu.edu.vn/hoc-bong",
+    scholarships: [
+      {
+        title: "Học bổng tân sinh viên / thành tích đầu vào",
+        target: "Tân sinh viên điểm cao",
+        requirements: "Điểm THPT hoặc học bạ vượt mốc quy định",
+        timeline: "Năm nhất",
+        note: ""
+      },
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA tốt, không vi phạm kỷ luật",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Chính sách hỗ trợ cho một số ngành sư phạm",
+        target: "Sinh viên ngành sư phạm",
+        requirements: "Theo chính sách nhà nước về đào tạo sư phạm",
+        timeline: "Suốt thời gian học",
+        note: "Rất phù hợp cho học sinh miền Tây"
+      }
+    ]
+  },
+  {
+    id: "dthu",
+    name: "Đại học Đồng Tháp",
+    short: "DThU",
+    city: "Đồng Tháp",
+    icon: "🌱",
+    scholarships: [
+      {
+        title: "Học bổng khuyến khích học tập",
+        target: "Sinh viên đang theo học",
+        requirements: "GPA tốt, hạnh kiểm tốt",
+        timeline: "Xét theo kỳ",
+        note: ""
+      },
+      {
+        title: "Hỗ trợ sinh viên sư phạm theo chính sách",
+        target: "Sinh viên ngành sư phạm",
+        requirements: "Theo chính sách nhà nước về đào tạo sư phạm",
+        timeline: "Suốt thời gian học",
+        note: ""
+      },
+      {
+        title: "Quỹ hỗ trợ sinh viên",
+        target: "Sinh viên có hoàn cảnh khó khăn",
+        requirements: "Hồ sơ hoàn cảnh + kết quả học tập",
+        timeline: "Theo thông báo",
+        note: "Có thể bổ sung mục cơ hội việc làm địa phương"
+      }
+    ]
+  }
+,
+  {id:"hcmus",name:"Đại học Khoa học Tự nhiên – ĐHQG TP.HCM",short:"HCMUS",city:"TP.HCM",icon:"🌿",website:"https://hcmus.edu.vn/wp-content/uploads/2024/02/2023-Quy-dinh-hoc-bong-SV.pdf",scholarships:[{title:"Học bổng khuyến khích học tập",target:"Sinh viên có thành tích học tập tốt",requirements:"GPA & rèn luyện đạt chuẩn theo quy định từng học kỳ/năm",timeline:"Xét theo học kỳ/năm",note:"Theo dõi thông báo từ phòng CTSV / website trường"},{title:"Học bổng nghiên cứu / dự án bền vững",target:"Sinh viên tham gia NCKH/CLB/hoạt động môi trường",requirements:"Có đề tài/dự án, thành tích/giải thưởng là lợi thế",timeline:"Theo đợt / dự án",note:"Thường có từ doanh nghiệp/đối tác"}]},
+  {id:"tdtu",name:"Đại học Tôn Đức Thắng",short:"TDTU",city:"TP.HCM",icon:"🌿",website:"https://student.tdtu.edu.vn/chinh-sach/hoc-bong",scholarships:[{title:"Học bổng TDTU (đầu vào)",target:"Tân sinh viên",requirements:"Đạt mốc điểm theo thông báo từng năm/đợt",timeline:"Mùa tuyển sinh",note:"Có nhiều mức 30%–100% tùy điều kiện"},{title:"Học bổng khuyến khích học tập",target:"Sinh viên đang học",requirements:"Kết quả học tập tốt, không vi phạm kỷ luật",timeline:"Theo học kỳ",note:"Xét tự động hoặc theo hồ sơ"}]},
+  {id:"nttu",name:"Đại học Nguyễn Tất Thành",short:"NTTU",city:"TP.HCM",icon:"🌿",website:"https://tuyensinh.ntt.edu.vn/chinh-sach-hoc-bong",scholarships:[{title:"Học bổng tài năng / khuyến học",target:"Tân sinh viên & sinh viên",requirements:"Điểm đầu vào/GPA đạt chuẩn từng mức học bổng",timeline:"Theo đợt",note:"Kiểm tra website học bổng từng năm"},{title:"Học bổng vượt khó",target:"Sinh viên có hoàn cảnh khó khăn",requirements:"Hồ sơ minh chứng + kết quả học tập/rèn luyện phù hợp",timeline:"Theo đợt",note:"Số lượng & mức hỗ trợ tùy quỹ"}]},
+  {id:"hcmut-ai",name:"Đại học Bách khoa – ĐHQG TP.HCM",short:"HCMUT",city:"TP.HCM",icon:"🤖",website:"https://oisp.hcmut.edu.vn/tuyen-sinh/hoc-bong",scholarships:[{title:"Học bổng khuyến khích học tập",target:"Sinh viên đang học",requirements:"GPA & rèn luyện theo quy định học kỳ",timeline:"Xét theo học kỳ",note:"Có thể đạt mức cao tùy kết quả"},{title:"Học bổng doanh nghiệp AI/Robotics",target:"Sinh viên có dự án/portfolio",requirements:"Tham gia CLB, dự án, NCKH; phỏng vấn (tùy đợt)",timeline:"Theo đợt",note:"Theo dõi thông báo Khoa/CTSV"}]},
+  {id:"uit",name:"Đại học Công nghệ Thông tin – ĐHQG TP.HCM",short:"UIT",city:"TP.HCM",icon:"🤖",website:"https://www.uit.edu.vn/chinh-sach-hoc-bong-tai-uit",scholarships:[{title:"Học bổng khuyến khích học tập",target:"Sinh viên đang học",requirements:"GPA tốt + rèn luyện đạt chuẩn",timeline:"Theo học kỳ/năm",note:"Thường xét theo kết quả học tập"},{title:"Học bổng doanh nghiệp (AI/Data)",target:"Sinh viên có năng lực nổi bật",requirements:"Thành tích học tập/giải thưởng/portfolio là lợi thế",timeline:"Theo đợt",note:"Các đơn vị tài trợ thay đổi theo năm"}]},
+  {id:"fpt-ai",name:"Đại học FPT",short:"FPTU",city:"TP.HCM/Cần Thơ/...",icon:"🤖",website:"https://daihoc.fpt.edu.vn/hoc-bong/",scholarships:[{title:"Học bổng toàn phần / bán phần (toàn khóa)",target:"Tân sinh viên",requirements:"Xét học bạ/điểm thi + thành tích + phỏng vấn/thi (tùy đợt)",timeline:"Theo đợt tuyển sinh",note:"Điều kiện thay đổi theo năm"},{title:"Học bổng theo kỳ thi học bổng",target:"Học sinh THPT",requirements:"Tham gia kỳ thi học bổng của FPTU",timeline:"Theo lịch trường",note:"Cần theo dõi lịch thi/đăng ký"}]},
+  {id:"hcmiu",name:"Đại học Quốc tế – ĐHQG TP.HCM",short:"HCMIU",city:"TP.HCM",icon:"🧬",website:"https://hcmiu.edu.vn/hoc-bong-tuyen-sinh-cua-truong-dhqt/",scholarships:[{title:"Học bổng chương trình quốc tế",target:"Tân sinh viên",requirements:"Điểm đầu vào/IELTS theo yêu cầu từng chương trình",timeline:"Mùa tuyển sinh",note:"Một số chương trình học hoàn toàn bằng tiếng Anh"},{title:"Học bổng học tập / nghiên cứu",target:"Sinh viên đang học",requirements:"GPA tốt, tham gia NCKH là lợi thế",timeline:"Theo học kỳ/đợt",note:"Theo dõi CTSV/khoa"}]},
+  {id:"nlu",name:"Đại học Nông Lâm TP.HCM",short:"NLU",city:"TP.HCM",icon:"🧬",website:"https://nls.hcmuaf.edu.vn/contents.php?gid=3790&ur=nls&lng=vn&title=hoc-bong",scholarships:[{title:"Học bổng khuyến khích học tập",target:"Sinh viên đang học",requirements:"Kết quả học tập tốt theo tiêu chí từng học kỳ/năm",timeline:"Theo học kỳ/năm",note:"Xét theo quy định trường"},{title:"Học bổng dự án/đối tác (CN sinh học)",target:"Sinh viên ngành liên quan",requirements:"Tham gia dự án, NCKH, CLB chuyên môn",timeline:"Theo đợt",note:"Tùy đối tác tài trợ"}]},
+  {id:"hufi",name:"Đại học Công nghiệp Thực phẩm TP.HCM",short:"HUFI",city:"TP.HCM",icon:"🧬",website:"https://ts.huit.edu.vn/hoc-bong-du-hoc/chinh-sach-hoc-bong-sinh-vien",scholarships:[{title:"Học bổng khuyến học / vượt khó",target:"Tân sinh viên & sinh viên",requirements:"Hồ sơ + kết quả học tập/rèn luyện phù hợp",timeline:"Theo đợt",note:"Mức hỗ trợ tùy quỹ"},{title:"Học bổng theo mốc điểm",target:"Tân sinh viên",requirements:"Đạt mốc điểm theo thông báo từng năm",timeline:"Mùa tuyển sinh",note:"Xem chi tiết trên website trường"}]}
+];
+
+/* ═══════════════ ESSAY SECTION ═══════════════ */
+const ESSAY_SECTION_HTML = `
+<section class="essay-section" id="viet-luan">
+  <div class="essay-header">
+    <div class="essay-header-icon">✍️</div>
+    <div class="essay-header-info">
+      <div class="essay-header-title">Bí quyết chinh phục bài luận học bổng</div>
+      <div class="essay-header-sub">Hướng dẫn cấu trúc, yếu tố cốt lõi và công thức viết luận ghi điểm với hội đồng xét duyệt</div>
+    </div>
+  </div>
+  <div class="essay-body">
+
+    <!-- CÔNG THỨC NHANH -->
+    <div class="essay-formula">
+      <div class="essay-formula-title">🛠️ Công thức viết luận nhanh</div>
+      <div class="essay-formula-steps">
+        <span class="essay-formula-step">💡 Điều gì xảy ra</span>
+        <span class="essay-formula-arrow">→</span>
+        <span class="essay-formula-step">❓ Vì sao quan trọng</span>
+        <span class="essay-formula-arrow">→</span>
+        <span class="essay-formula-step">🔧 Cách bạn xử lý</span>
+        <span class="essay-formula-arrow">→</span>
+        <span class="essay-formula-step">📚 Bạn học được gì</span>
+        <span class="essay-formula-arrow">→</span>
+        <span class="essay-formula-step">🎯 Liên hệ tương lai</span>
+      </div>
+      <div class="essay-formula-note">👉 Học bổng không chỉ chọn người <strong>giỏi nhất</strong>, mà chọn người <strong>thuyết phục rằng họ sẽ đóng góp nhiều nhất</strong> nếu được đầu tư.</div>
+    </div>
+
+    <!-- CẤU TRÚC BÀI LUẬN -->
+    <div>
+      <div class="essay-block-title">🧠 Cấu trúc cơ bản của bài luận</div>
+      <div class="essay-struct-grid">
+
+        <!-- MỞ BÀI -->
+        <div class="essay-struct-card essay-accordion-card" onclick="toggleAccordion(this)" style="cursor:pointer;grid-column:1;transition:all .3s;">
+          <div class="essay-struct-card-head" style="justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="essay-struct-num">1</div>
+              <div class="essay-struct-label">Mở bài</div>
+            </div>
+            <svg class="accordion-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <ul class="essay-struct-items">
+            <li>Giới thiệu ngắn gọn về bản thân</li>
+            <li>Nêu ngay mục tiêu chính của bài luận</li>
+            <li>Tạo "hook" thu hút — câu chuyện hoặc một quan điểm mạnh</li>
+          </ul>
+          <div class="accordion-detail" style="display:none;margin-top:14px;border-top:1px solid rgba(99,102,241,0.15);padding-top:14px;">
+            <div class="acc-section-title">🎯 Mục tiêu mở bài</div>
+            <ul class="acc-list">
+              <li>Tạo cảm xúc ngay từ đầu</li>
+              <li>Cho thấy bạn có tư duy rõ ràng</li>
+              <li>Giới thiệu định hướng một cách thuyết phục</li>
+            </ul>
+
+            <div class="acc-section-title" style="margin-top:12px;">✍️ 3 cách mở bài mạnh</div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">Cách 1: Mở bằng khoảnh khắc cá nhân <span class="acc-badge acc-badge-green">Rất mạnh</span></div>
+              <div class="acc-quote">"Năm lớp 9, khi lần đầu tiên tôi tham gia cuộc thi STEM cấp trường và thất bại, tôi nhận ra rằng điều tôi thiếu không phải là khả năng, mà là cơ hội và sự đầu tư đúng hướng."</div>
+              <div class="acc-tip">👉 Dùng khi bạn có câu chuyện thật, có chuyển biến rõ ràng.</div>
+            </div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">Cách 2: Mở bằng quan điểm cá nhân <span class="acc-badge acc-badge-purple">Tư duy hệ thống</span></div>
+              <div class="acc-quote">"Tôi tin rằng học bổng không chỉ dành cho người giỏi nhất, mà dành cho người có kế hoạch rõ ràng để tạo ra giá trị lâu dài."</div>
+              <div class="acc-tip">👉 Rất hợp nếu bạn thích tư duy logic, phân tích.</div>
+            </div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">Cách 3: Mở bằng mục tiêu tương lai <span class="acc-badge acc-badge-amber">Định hướng rõ</span></div>
+              <div class="acc-quote">"Tôi mong muốn trở thành một kỹ sư công nghệ có thể xây dựng các nền tảng hỗ trợ học sinh Việt Nam tiếp cận học bổng một cách minh bạch và dễ dàng."</div>
+              <div class="acc-tip">👉 Phù hợp khi bạn có mục tiêu nghề nghiệp cụ thể, dài hạn.</div>
+            </div>
+
+            <div class="acc-note">
+              📌 <strong>Sau câu mở:</strong> Giới thiệu ngắn gọn bạn là ai (1–2 câu) → Ngành bạn theo đuổi → Mục tiêu chính<br>
+              📝 <strong>Độ dài mở bài:</strong> 80–120 từ
+            </div>
+          </div>
+        </div>
+
+        <!-- THÂN BÀI -->
+        <div class="essay-struct-card essay-accordion-card" onclick="toggleAccordion(this)" style="cursor:pointer;transition:all .3s;">
+          <div class="essay-struct-card-head" style="justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="essay-struct-num">2</div>
+              <div class="essay-struct-label">Thân bài</div>
+            </div>
+            <svg class="accordion-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <ul class="essay-struct-items">
+            <li>Câu chuyện cá nhân liên quan đến học tập / nghề nghiệp</li>
+            <li>Ví dụ cụ thể để hội đồng thấy rõ bạn là ai</li>
+            <li>Thành tựu & kỹ năng liên quan đến học bổng</li>
+            <li>Mục tiêu tương lai và vì sao học bổng quan trọng</li>
+          </ul>
+          <div class="accordion-detail" style="display:none;margin-top:14px;border-top:1px solid rgba(99,102,241,0.15);padding-top:14px;">
+            <div class="acc-section-title">🏆 Thân bài = 70% điểm — chia 4 phần rõ ràng</div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">1️⃣ Câu chuyện cá nhân (Background)</div>
+              <ul class="acc-list">
+                <li>Bạn xuất phát từ đâu?</li>
+                <li>Điều gì định hình con người bạn?</li>
+                <li>Khó khăn nào bạn đã vượt qua?</li>
+              </ul>
+              <div class="acc-quote" style="margin-top:8px;">"Tôi sinh ra và lớn lên tại Cần Thơ. Trong môi trường cạnh tranh học tập cao, thay vì nản chí, tôi bắt đầu xây dựng hệ thống học tập riêng..."</div>
+              <div class="acc-warn">⚠️ Không kể lể · Không than khổ · Phải có <strong>"chuyển biến"</strong></div>
+            </div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">2️⃣ Thành tích & minh chứng cụ thể (Evidence)</div>
+              <div class="acc-compare">
+                <div class="acc-compare-bad">❌ "Tôi học tốt môn Toán"</div>
+                <div class="acc-compare-good">✅ "Tôi đạt giải Nhì Olympic 30/4 môn Toán và duy trì GPA 9.2"</div>
+              </div>
+              <div class="acc-formula-mini"><strong>Action → Result → Impact</strong></div>
+              <div class="acc-quote">"Tôi xây dựng website tổng hợp thông tin học bổng. Sau 3 tuần, dự án thu hút hơn 200 lượt truy cập từ các bạn trong trường."</div>
+              <div class="acc-tip">👉 Hội đồng thích số liệu cụ thể — luôn gắn con số vào thành tích.</div>
+            </div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">3️⃣ Mục tiêu tương lai (Vision)</div>
+              <ul class="acc-list">
+                <li>Bạn muốn học gì, chuyên sâu ngành nào?</li>
+                <li>Sau đại học bạn muốn làm gì?</li>
+                <li>Bạn đóng góp gì cho xã hội / cộng đồng?</li>
+              </ul>
+              <div class="acc-quote" style="margin-top:8px;">"Tôi mong muốn theo học ngành Công nghệ thông tin để phát triển các hệ thống giáo dục ứng dụng AI, giúp học sinh vùng xa tiếp cận thông tin học tập chất lượng."</div>
+            </div>
+
+            <div class="acc-method-card">
+              <div class="acc-method-title">4️⃣ Vì sao học bổng quan trọng với bạn?</div>
+              <div class="acc-compare">
+                <div class="acc-compare-bad">❌ "Vì gia đình tôi không đủ điều kiện"</div>
+                <div class="acc-compare-good">✅ "Học bổng giúp tôi có thêm thời gian tập trung vào nghiên cứu và phát triển các dự án cộng đồng."</div>
+              </div>
+              <div class="acc-tip">👉 Nhấn mạnh: <strong>Học bổng = đầu tư · Bạn = sinh lời giá trị</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KẾT LUẬN -->
+        <div class="essay-struct-card essay-accordion-card" onclick="toggleAccordion(this)" style="cursor:pointer;transition:all .3s;">
+          <div class="essay-struct-card-head" style="justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="essay-struct-num">3</div>
+              <div class="essay-struct-label">Kết luận</div>
+            </div>
+            <svg class="accordion-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform .3s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <ul class="essay-struct-items">
+            <li>Tóm lại lý do bạn xứng đáng nhận học bổng</li>
+            <li>Nhấn mạnh giá trị bạn mang lại nếu được nhận</li>
+          </ul>
+          <div class="accordion-detail" style="display:none;margin-top:14px;border-top:1px solid rgba(99,102,241,0.15);padding-top:14px;">
+            <div class="acc-section-title">🎯 Mục tiêu kết luận</div>
+            <ul class="acc-list">
+              <li>Tóm lại lý do bạn xứng đáng — không lặp lại thân bài</li>
+              <li>Nhấn mạnh giá trị dài hạn bạn mang lại</li>
+              <li>Kết thúc tự tin, không van xin hay cầu khẩn</li>
+            </ul>
+
+            <div class="acc-section-title" style="margin-top:12px;">✍️ Khung viết kết luận mạnh</div>
+            <div class="acc-quote">"Nếu được trao cơ hội này, tôi cam kết không chỉ nỗ lực trong học tập mà còn tiếp tục phát triển các dự án hỗ trợ học sinh khác. Tôi tin rằng sự đầu tư vào tôi hôm nay sẽ tạo ra giá trị bền vững cho cộng đồng trong tương lai."</div>
+            <div class="acc-tip">👉 Kết phải tự tin, không xin xỏ — bạn đang đề xuất một <strong>hợp tác đôi bên cùng có lợi</strong>.</div>
+
+            <div class="acc-note">📝 <strong>Độ dài kết luận:</strong> 80–120 từ</div>
+
+            <div class="acc-section-title" style="margin-top:12px;">📏 Độ dài chuẩn toàn bài</div>
+            <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px;">
+              <div class="acc-length-row"><span>Học bổng trong nước</span><span class="acc-badge acc-badge-purple">500–800 từ</span></div>
+              <div class="acc-length-row"><span>Học bổng quốc tế</span><span class="acc-badge acc-badge-amber">800–1.200 từ</span></div>
+              <div class="acc-length-row"><span>Học bổng 100%</span><span class="acc-badge acc-badge-green">1.000+ từ</span></div>
+            </div>
+
+            <div class="acc-section-title" style="margin-top:12px;">🚨 6 lỗi nguy hiểm nhất cần tránh</div>
+            <ul class="acc-list acc-list-danger">
+              <li>Kể lể quá dài, lan man không có điểm nhấn</li>
+              <li>Không có số liệu minh chứng cụ thể</li>
+              <li>Viết chung chung, không cá nhân hóa</li>
+              <li>Không có định hướng tương lai rõ ràng</li>
+              <li>Lặp từ "I" quá nhiều (bài luận tiếng Anh)</li>
+              <li>Không chỉnh sửa nhiều lần trước khi nộp</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 9 YẾU TỐ CỐT LÕI -->
+    <div>
+      <div class="essay-block-title">💡 9 yếu tố cốt lõi giúp bài luận ghi điểm</div>
+      <div class="essay-tips-grid">
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">🔥</div>
+          <div class="essay-tip-name">Chân thực & cá nhân hóa</div>
+          <div class="essay-tip-desc">Bài luận phải phản ánh chính bạn, không phải những điều chung chung, sáo rỗng.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">📖</div>
+          <div class="essay-tip-name">Câu chuyện có ý nghĩa</div>
+          <div class="essay-tip-desc">Kể câu chuyện giúp người đọc hiểu con người bạn và cách bạn đối diện thử thách.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">🎯</div>
+          <div class="essay-tip-name">Mục tiêu rõ ràng</div>
+          <div class="essay-tip-desc">Nêu rõ bạn muốn gì và học bổng sẽ giúp bạn thế nào — hội đồng rất chú trọng điều này.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">🧠</div>
+          <div class="essay-tip-name">Kết nối với tiêu chí học bổng</div>
+          <div class="essay-tip-desc">Hiểu rõ giá trị & sứ mệnh của tổ chức cấp học bổng và thể hiện bạn phù hợp với tiêu chí đó.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">✍️</div>
+          <div class="essay-tip-name">Ngôn ngữ rõ ràng, logic</div>
+          <div class="essay-tip-desc">Trình bày rõ ý, không lan man. Dùng đoạn văn ngắn, dễ đọc, câu chữ mạch lạc.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">✔️</div>
+          <div class="essay-tip-name">Minh chứng bằng ví dụ cụ thể</div>
+          <div class="essay-tip-desc">Đừng chỉ nêu "tôi chăm học" — hãy kể tình huống cụ thể chứng minh điều đó.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">😊</div>
+          <div class="essay-tip-name">Tích cực & lạc quan</div>
+          <div class="essay-tip-desc">Dù kể về khó khăn, hãy chuyển sang hướng tích cực — bạn học được gì và trưởng thành ra sao.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">📌</div>
+          <div class="essay-tip-name">Tránh lặp lại CV</div>
+          <div class="essay-tip-desc">Bài luận cần diễn giải cảm xúc, tư duy, mục tiêu — không chỉ liệt kê lại hồ sơ.</div>
+        </div>
+        <div class="essay-tip-card">
+          <div class="essay-tip-icon">🧹</div>
+          <div class="essay-tip-name">Chỉnh sửa & nhận phản hồi</div>
+          <div class="essay-tip-desc">Viết xong hãy chỉnh sửa nhiều lần và nhờ giáo viên / mentor góp ý để hoàn thiện.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+`;
+
+/* ═══════════════ RENDER ═══════════════ */
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('mainContent');
+let searchTerm = '';
+
+function renderSidebar(schools) {
+  const titleHtml = '<div class="p2-sidebar-title">📚 Danh sách trường</div>';
+  const linksHtml = schools.map(s =>
+    `<a href="#${s.id}" data-id="${s.id}" onclick="highlightSection('${s.id}')">${s.icon} ${s.short}</a>`
+  ).join('');
+  const essayLinkHtml = `
+    <div class="essay-sidebar-label">Hướng dẫn</div>
+    <a href="#viet-luan" data-id="viet-luan" onclick="highlightSection('viet-luan')" style="color:#6366f1;background:rgba(99,102,241,0.07);border-left:3px solid #6366f1;">✍️ Bí quyết viết luận</a>
+  `;
+  sidebar.innerHTML = titleHtml + linksHtml + essayLinkHtml;
+}
+
+function renderSchools(schools) {
+  if (schools.length === 0) {
+    mainContent.innerHTML = '<div class="p2-no-results">Không tìm thấy trường phù hợp với từ khóa.</div>';
+    return;
+  }
+  mainContent.innerHTML = schools.map(s => {
+    const cardsHtml = s.scholarships.map(sc => `
+      <div class="sc-card">
+        <div class="sc-card-title">🎓 ${sc.title}</div>
+        <div class="sc-row">
+          <span class="sc-label">Đối tượng:</span>
+          <span class="sc-value">${sc.target}</span>
+        </div>
+        <div class="sc-row">
+          <span class="sc-label">Yêu cầu:</span>
+          <span class="sc-value">${sc.requirements}</span>
+        </div>
+        <div class="sc-row">
+          <span class="sc-label">Thời gian:</span>
+          <span class="sc-value"><span class="sc-tag sc-tag-green">${sc.timeline}</span></span>
+        </div>
+        ${sc.note ? `<div class="sc-note">💡 ${sc.note}</div>` : ''}
+      </div>
+    `).join('');
+
+    return `
+      <section class="school-section" id="${s.id}">
+        <div class="school-header">
+          <div class="school-icon">${s.icon}</div>
+          <div class="school-info">
+            <h2 class="school-name">${s.website ? `<a href="${s.website}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:2px solid rgba(99,102,241,0.3);padding-bottom:1px;transition:border-color .2s,color .2s;" onmouseover="this.style.color='#6366f1';this.style.borderColor='#6366f1'" onmouseout="this.style.color='';this.style.borderColor='rgba(99,102,241,0.3)'">${s.name} <svg style="display:inline;vertical-align:middle;margin-left:5px;opacity:.55" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>` : s.name}</h2>
+            <div class="school-badges">
+              <span class="school-badge-short">${s.short}</span>
+              <span class="school-badge-city">📍 ${s.city}</span>
+            </div>
+          </div>
+        </div>
+        <div class="school-cards">
+          ${cardsHtml}
+        </div>
+      </section>
+    `;
+  }).join('') + ESSAY_SECTION_HTML;
+}
+
+function filterSchools(val) {
+  searchTerm = val.toLowerCase().trim();
+  const filtered = SCHOOLS.filter(s =>
+    (s.name + ' ' + s.short + ' ' + s.city).toLowerCase().includes(searchTerm)
+  );
+  renderSidebar(filtered);
+  renderSchools(filtered);
+}
+
+function highlightSection(id) {
+  document.querySelectorAll('.school-section.highlight, .essay-section.highlight').forEach(el => el.classList.remove('highlight'));
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => el.classList.add('highlight'), 100);
+  }
+  document.querySelectorAll('.p2-sidebar a').forEach(a => a.classList.remove('active'));
+  const link = document.querySelector(`.p2-sidebar a[data-id="${id}"]`);
+  if (link) link.classList.add('active');
+}
+
+/* ═══════════════ INIT ═══════════════ */
+
+let activeObserver = null;
+
+function setupObserver(currentIds) {
+  if (activeObserver) activeObserver.disconnect();
+
+  activeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.p2-sidebar a').forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`.p2-sidebar a[data-id="${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' });
+
+  currentIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) activeObserver.observe(el);
+  });
+}
+
+function scrollToTargetFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const fromQuery = params.get('school');
+  const fromHash = window.location.hash ? window.location.hash.slice(1) : '';
+  const targetId = fromHash || fromQuery;
+
+  if (!targetId) return;
+
+  // If coming from query param, sync to hash so sidebar links behave consistently
+  if (!fromHash && fromQuery) {
+    window.location.hash = `#${fromQuery}`;
+    return; // hashchange will handle the scroll
+  }
+
+  const el = document.getElementById(targetId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    highlightSection(targetId);
+
+    document.querySelectorAll('.p2-sidebar a').forEach(a => a.classList.remove('active'));
+    const link = document.querySelector(`.p2-sidebar a[data-id="${targetId}"]`);
+    if (link) link.classList.add('active');
+  }
+}
+
+function toggleAccordion(card) {
+  const detail = card.querySelector('.accordion-detail');
+  const arrow = card.querySelector('.accordion-arrow');
+  const isOpen = detail.style.display !== 'none';
+  detail.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+  card.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    card.style.gridColumn = window.innerWidth > 640 ? '1 / -1' : '';
+  } else {
+    card.style.gridColumn = '';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  renderSidebar(SCHOOLS);
+  renderSchools(SCHOOLS);
+  setupObserver([...SCHOOLS.map(s => s.id), 'viet-luan']);
+
+  // Delay a bit to ensure layout is ready
+  setTimeout(scrollToTargetFromUrl, 150);
+});
+
+window.addEventListener('hashchange', () => {
+  setTimeout(scrollToTargetFromUrl, 50);
+});
+</script>
+</body>
+</html>
