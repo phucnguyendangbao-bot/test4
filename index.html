@@ -932,9 +932,9 @@ body::after{
     <!-- MINI CALENDAR (Bắt đầu / Hạn cuối) -->
     <div class="mini-cal-wrap" aria-label="Lịch nhận hồ sơ">
       <div class="mini-cal-top">
-        <button type="button" class="mini-cal-title mini-notes-toggle" id="miniNotesToggle" title="Bấm để mở ghi chú">
-          <span>📅</span> Lịch nhận hồ sơ <em style="font-style:normal;font-weight:900;font-size:.72rem;opacity:.75;">(Ghi chú)</em>
-        </button>
+        <div class="mini-cal-title">
+          <span>📅</span> Lịch nhận hồ sơ
+        </div>
         <div class="mini-cal-legend">
           <span class="mini-chip"><span class="mini-dot"></span>Bắt đầu</span>
           <span class="mini-chip"><span class="mini-dot end"></span>Hạn cuối</span>
@@ -2042,30 +2042,7 @@ window.addEventListener('load', function(){
     });
   }
 
-  // Toggle on title click
-  if(notesToggle && notesPanel){
-    notesToggle.addEventListener('click', function(e){
-      e.stopPropagation();
-      if(notesPanel.classList.contains('open')) closeNotes();
-      else openNotes();
-    });
-  }
-
-  // Close button
-  if(notesClose){
-    notesClose.addEventListener('click', function(e){
-      e.stopPropagation();
-      closeNotes();
-    });
-  }
-
-  // Close when clicking outside
-  document.addEventListener('click', function(e){
-    if(notesPanel && notesPanel.classList.contains('open')){
-      var wrap = document.querySelector('.mini-cal-wrap');
-      if(wrap && !wrap.contains(e.target)) closeNotes();
-    }
-  });
+  // General notes panel hidden (removed toggle button, notes per-day still work)
 
   const labelEl = document.getElementById('calLabel');
   const daysEl = document.getElementById('calDays');
